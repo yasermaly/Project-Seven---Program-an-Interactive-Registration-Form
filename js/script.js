@@ -59,7 +59,7 @@ for (let i =0; i < checkboxes.length; i++) {
     });
 }
 
-// This event handler allows users to see in real time their total cost based on their selections
+// This event handler displays the total cost of selected activities and prevents the selection of activities with conflicting dates
 const activities = document.getElementById('activities');
 const totalElement = document.getElementById('activities-cost');
 let totalCost = 0;
@@ -208,15 +208,7 @@ formElement.addEventListener('submit', (e) => {
     errorValidation(regexName, nameField, e);
     errorValidation(regexEmail, emailInput, e);
     errorValidation(activitiesValidator,activities.firstElementChild, e);
-    
-    const paymentElement = document.getElementById('payment');
-    
-    if (paymentElement[1].selected) {
-        errorValidation(regexCCard, cardNumber, e);
-        errorValidation(regexZip, zipCode, e);
-        errorValidation(regexCvv,cvv, e);
-        
-    } else {
-        console.log('Payment will be validated next page.');
-    } 
-});
+    errorValidation(regexCCard, cardNumber, e);
+    errorValidation(regexZip, zipCode, e);
+    errorValidation(regexCvv,cvv, e);
+   });

@@ -119,7 +119,7 @@ paymentElement.addEventListener('change', (e) => {
     }
 });
 
-// Variables to work in form validation
+// Form Validation
 const emailInput = document.getElementById('email');
 const cardNumber = document.getElementById('cc-num');
 const zipCode = document.getElementById('zip');
@@ -129,7 +129,6 @@ const emailHint = document.getElementById('email-hint');
 const activitiesBox = document.getElementById('activities-box');
 
 
-// These helper functions test each required field and the validation requirements of each
 function regexName () {
     const nameInput = nameField.value;
     const nameTest = /^[a-z]/i.test(nameInput);
@@ -177,7 +176,6 @@ function errorValidation(test, element, event) {
 
 
 // Real-time error messages
-
 nameField.addEventListener('keyup', (e) => {
     
     const nameHint = document.getElementById('name-hint');

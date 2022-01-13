@@ -4,14 +4,14 @@
 */
 
 
-//This function sets a focus on the name field by default
+//Sets a focus on the name field by default
 function focusName () {
     const name = document.getElementById('name');
     name.focus();
 }
 focusName();
 
-//This event handler hides by default the 'Other job role' field. If the user selects "Other" in the "Job Role" drop down menu, the "Other job role" text field appears, and they can enter info into it
+//Hides by default the 'Other job role' field. If the user selects "Other" in the "Job Role" drop down menu, the "Other job role" text field appears, and they can enter info into it
 const nameField = document.getElementById('name');
 const jobRole = document.getElementById('title');
 const otherJob = document.getElementById('other-job-role');
@@ -25,7 +25,7 @@ jobRole.addEventListener('change', e => {
     }
 });
 
-// This event handler disable by default the color menu, so the user shouldn’t be able to see or choose a color option until they have chosen a design
+// Disables by default the color menu, so the user shouldn’t be able to see or choose a color option until they have chosen a design
 const designSelect = document.getElementById('design');
 const color = document.getElementById('color');
 color.disabled = true;
@@ -59,7 +59,7 @@ for (let i =0; i < checkboxes.length; i++) {
     });
 }
 
-// This event handler displays the total cost of selected activities and prevents the selection of activities with conflicting dates
+// Displays the total cost of selected activities and prevents the selection of activities with conflicting dates
 const activities = document.getElementById('activities');
 const totalElement = document.getElementById('activities-cost');
 let totalCost = 0;
@@ -94,7 +94,7 @@ activities.addEventListener('change', e => {
 });
 
 
-// This event handler displays the credit payment method unless a different one is selected from the dropdown menu 
+// Displays the credit payment method unless a different one is selected from the dropdown menu 
 const paymentElement = document.getElementById('payment');
 const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementById('paypal');
@@ -160,7 +160,7 @@ function activitiesValidator () {
 }
 
 
-// This function handles error validation
+// Error validation
 function errorValidation(test, element, event) {
     if(!test()) {
         event.preventDefault();
@@ -181,9 +181,10 @@ nameField.addEventListener('keyup', (e) => {
     const nameHint = document.getElementById('name-hint');
     if (e.target.value === '') {
         nameHint.style.display = 'block';
+        errorValidation(regexName, nameField, e);
     } else {
         nameHint.style.display = 'none';
-
+        errorValidation(regexName, nameField, e);
     }
     regexName();
 });
@@ -192,21 +193,32 @@ emailInput.addEventListener('keyup', (e) => {
     if (emailInput.value === '') {
         emailHint.style.display = 'block';
         emailHint.innerHTML = 'Email field cannot be blank';
+        errorValidation(regexEmail, emailInput, e);
     } else if (!regexEmail()) {
         emailHint.innerHTML = 'Email address must be formatted correctly';
+        errorValidation(regexEmail, emailInput, e);
     } else if (regexEmail()) {
         emailHint.innerHTML = '';
+        errorValidation(regexEmail, emailInput, e);
     }
     regexEmail();
 });
 
 
-// This event handler validates each required form field when the form is submitted.
+// Validates each required form field when the form is submitted unless Paypal or Bitcoin are chosen as payment methods
 formElement.addEventListener('submit', (e) => {
     errorValidation(regexName, nameField, e);
     errorValidation(regexEmail, emailInput, e);
     errorValidation(activitiesValidator,activities.firstElementChild, e);
-    errorValidation(regexCCard, cardNumber, e);
-    errorValidation(regexZip, zipCode, e);
-    errorValidation(regexCvv,cvv, e);
+    
+    const paymentElement = document.getElementById('payment');
+    
+    if (paymentElement[1].selected) {
+        errorValidation(regexCCard, cardNumber, e);
+        errorValidation(regexZip, zipCode, e);
+        errorValidation(regexCvv,cvv, e);
+        
+    } else {
+        console.log('Submitted');
+    } 
    });
